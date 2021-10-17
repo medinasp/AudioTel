@@ -1,0 +1,119 @@
+﻿@model IEnumerable<AudioTel.Models.Bancocliente>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entrevistador)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelFeito)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumTratado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gravacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ddd1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fone1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ddd2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fone2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ddd3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fone3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ddd4)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fone4)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Entrevistador)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HoraStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TelFeito)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumTratado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gravacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ddd1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fone1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ddd2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fone2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ddd3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fone3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ddd4)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fone4)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
