@@ -4,12 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h2>
+    Registros<a href="@Url.Action("Create")" class="btn text-primary" data-toggle="tooltip" data-placement="right">
+        <i class="bi bi-plus-circle-fill" style="font-size: 1.5rem; color:deepskyblue"></i>
+    </a>
+</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table table-responsive table-sm table-striped table-hover" style="width: 100vw; grid-column-end">
     <thead>
         <tr>
             <th>
@@ -28,10 +29,7 @@
                 @Html.DisplayNameFor(model => model.TelFeito)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumTratado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gravacao)
+                NT
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ddd1)
@@ -55,9 +53,8 @@
                 @Html.DisplayNameFor(model => model.Ddd4)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fone4)
+                Fone 4 &nbsp;
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -80,9 +77,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NumTratado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gravacao)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Ddd1)
@@ -109,9 +103,9 @@
                 @Html.DisplayFor(modelItem => item.Fone4)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id"class="bi bi-pencil" style="font-size: 1.10rem"></a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="bi bi-file-text" style="font-size: 1.10rem"></a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="bi bi-trash danger" style="font-size: 1.10rem; color: red"></a>
             </td>
         </tr>
 }
