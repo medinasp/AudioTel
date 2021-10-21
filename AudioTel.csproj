@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Content\SambaDeVerao.mp3" />
+    <None Include="wwwroot\Content\Bach - Jesus, Alegria dos Homens.mp4" />
+    <None Include="wwwroot\Content\CountOnMeBrunoMars.mp4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="bootstrap" Version="5.1.2" />
     <PackageReference Include="bootstrap.sass" Version="5.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">

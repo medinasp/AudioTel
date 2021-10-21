@@ -53,7 +53,7 @@ namespace AudioTel.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Numero,NomeDoArquivo,Ramal")] Gravacoes gravacoes)
+        public async Task<IActionResult> Create([Bind("Id,Numero,NomeDoArquivo,FileSize,FilePath,Ramal")] Gravacoes gravacoes)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace AudioTel.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Numero,NomeDoArquivo,Ramal")] Gravacoes gravacoes)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Numero,NomeDoArquivo,FileSize,FilePath,Ramal")] Gravacoes gravacoes)
         {
             if (id != gravacoes.Id)
             {

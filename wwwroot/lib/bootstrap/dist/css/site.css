@@ -69,3 +69,27 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+/*--- audio/video ----*/
+#content {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+}
+
+#video {
+    width: 400px;
+    height: 400px;
+}
+/*--- audio/video ----*/
+#content {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+}
+
+#video {
+    width: 400px;
+    height: 400px;
+}

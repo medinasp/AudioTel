@@ -120,6 +120,16 @@ namespace AudioTel.Models
                     .HasMaxLength(50)
                     .HasColumnName("numero");
 
+                entity.Property(e => e.FileSize)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("FileSize");
+
+                entity.Property(e => e.FilePath)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnName("FilePath");
+
                 entity.Property(e => e.Ramal)
                     .IsRequired()
                     .HasMaxLength(10)
