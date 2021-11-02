@@ -7,6 +7,10 @@ namespace AudioTel.Models
 {
     public partial class Bancocliente
     {
+        public Bancocliente()
+        {
+            Gravacos = new HashSet<Gravacao>();
+        }
         public int Id { get; set; }
         public int? Codigo { get; set; }
         public string Entrevistador { get; set; }
@@ -23,5 +27,7 @@ namespace AudioTel.Models
         public string Fone3 { get; set; }
         public string Ddd4 { get; set; }
         public string Fone4 { get; set; }
+
+        public virtual ICollection<Gravacao> Gravacos { get; set; }
     }
 }

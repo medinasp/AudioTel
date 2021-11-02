@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AudioTel.Models;
 
-namespace AudioTel.Controllers
+namespace AudioTelRec.Controllers
 {
     public class GravacoesController : Controller
     {
-        private readonly DbContextAudioTel _context;
+        private readonly AudioTelRecDbContext _context;
 
-        public GravacoesController(DbContextAudioTel context)
+        public GravacoesController(AudioTelRecDbContext context)
         {
             _context = context;
         }
@@ -21,7 +21,8 @@ namespace AudioTel.Controllers
         // GET: Gravacoes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Gravacoes.ToListAsync());
+            var audioTelRecDbContext = _context.Gravacoes.Include(g => g.IdBancoClienteNavigation);
+            return View(await audioTelRecDbContext.ToListAsync());
         }
 
         // GET: Gravacoes/Details/5
@@ -32,19 +33,21 @@ namespace AudioTel.Controllers
                 return NotFound();
             }
 
-            var gravacoes = await _context.Gravacoes
+            var gravacao = await _context.Gravacoes
+                .Include(g => g.IdBancoClienteNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (gravacoes == null)
+            if (gravacao == null)
             {
                 return NotFound();
             }
 
-            return View(gravacoes);
+            return View(gravacao);
         }
 
         // GET: Gravacoes/Create
         public IActionResult Create()
         {
+            ViewData["IdBancoCliente"] = new SelectList(_context.Bancoclientes, "Id", "Ddd1");
             return View();
         }
 
@@ -53,15 +56,16 @@ namespace AudioTel.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Numero,NomeDoArquivo,FileSize,FilePath,Ramal")] Gravacoes gravacoes)
+        public async Task<IActionResult> Create([Bind("Id,IdBancoCliente,Numero,NomeDoArquivo,FileSize,FilePath,Ramal")] Gravacao gravacao)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(gravacoes);
+                _context.Add(gravacao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(gravacoes);
+            ViewData["IdBancoCliente"] = new SelectList(_context.Bancoclientes, "Id", "Ddd1", gravacao.IdBancoCliente);
+            return View(gravacao);
         }
 
         // GET: Gravacoes/Edit/5
@@ -72,12 +76,13 @@ namespace AudioTel.Controllers
                 return NotFound();
             }
 
-            var gravacoes = await _context.Gravacoes.FindAsync(id);
-            if (gravacoes == null)
+            var gravacao = await _context.Gravacoes.FindAsync(id);
+            if (gravacao == null)
             {
                 return NotFound();
             }
-            return View(gravacoes);
+            ViewData["IdBancoCliente"] = new SelectList(_context.Bancoclientes, "Id", "Ddd1", gravacao.IdBancoCliente);
+            return View(gravacao);
         }
 
         // POST: Gravacoes/Edit/5
@@ -85,9 +90,9 @@ namespace AudioTel.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Numero,NomeDoArquivo,FileSize,FilePath,Ramal")] Gravacoes gravacoes)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,IdBancoCliente,Numero,NomeDoArquivo,FileSize,FilePath,Ramal")] Gravacao gravacao)
         {
-            if (id != gravacoes.Id)
+            if (id != gravacao.Id)
             {
                 return NotFound();
             }
@@ -96,12 +101,12 @@ namespace AudioTel.Controllers
             {
                 try
                 {
-                    _context.Update(gravacoes);
+                    _context.Update(gravacao);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GravacoesExists(gravacoes.Id))
+                    if (!GravacaoExists(gravacao.Id))
                     {
                         return NotFound();
                     }
@@ -112,7 +117,8 @@ namespace AudioTel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(gravacoes);
+            ViewData["IdBancoCliente"] = new SelectList(_context.Bancoclientes, "Id", "Ddd1", gravacao.IdBancoCliente);
+            return View(gravacao);
         }
 
         // GET: Gravacoes/Delete/5
@@ -123,14 +129,15 @@ namespace AudioTel.Controllers
                 return NotFound();
             }
 
-            var gravacoes = await _context.Gravacoes
+            var gravacao = await _context.Gravacoes
+                .Include(g => g.IdBancoClienteNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (gravacoes == null)
+            if (gravacao == null)
             {
                 return NotFound();
             }
 
-            return View(gravacoes);
+            return View(gravacao);
         }
 
         // POST: Gravacoes/Delete/5
@@ -138,13 +145,13 @@ namespace AudioTel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var gravacoes = await _context.Gravacoes.FindAsync(id);
-            _context.Gravacoes.Remove(gravacoes);
+            var gravacao = await _context.Gravacoes.FindAsync(id);
+            _context.Gravacoes.Remove(gravacao);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GravacoesExists(int id)
+        private bool GravacaoExists(int id)
         {
             return _context.Gravacoes.Any(e => e.Id == id);
         }

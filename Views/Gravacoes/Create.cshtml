@@ -1,4 +1,4 @@
-﻿@model AudioTel.Models.Gravacoes
+﻿@model AudioTelRec.Models.Gravacao
 
 @{
     ViewData["Title"] = "Create";
@@ -6,12 +6,16 @@
 
 <h1>Create</h1>
 
-<h4>Gravacoes</h4>
+<h4>Gravacao</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdBancoCliente" class="control-label"></label>
+                <select asp-for="IdBancoCliente" class ="form-control" asp-items="ViewBag.IdBancoCliente"></select>
+            </div>
             <div class="form-group">
                 <label asp-for="Numero" class="control-label"></label>
                 <input asp-for="Numero" class="form-control" />

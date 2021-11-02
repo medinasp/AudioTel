@@ -6,22 +6,75 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AudioTel.Models;
+using System.Web;
+using X.PagedList;
+using X.PagedList.Mvc.Core;
+using X.PagedList.Mvc;
+
+
 
 namespace AudioTel.Controllers
 {
     public class BancoclientesController : Controller
     {
-        private readonly DbContextAudioTel _context;
+        private readonly AudioTelRecDbContext _context;
 
-        public BancoclientesController(DbContextAudioTel context)
+        public BancoclientesController(AudioTelRecDbContext context)
         {
             _context = context;
         }
 
         // GET: Bancoclientes
-        public async Task<IActionResult> Index()
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? pagina)
         {
-            return View(await _context.Bancoclientes.ToListAsync());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.First = String.IsNullOrEmpty(sortOrder) ? "First" : "";
+            ViewBag.Second = sortOrder == "Second" ? "Second_desc" : "Second";
+
+            int tamanhoPagina = 2;
+            int numeroPagina = pagina ?? 1;
+
+            if (searchString != null)
+            {
+                pagina = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var entrevistador = from s in _context.Bancoclientes
+                                select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                entrevistador = entrevistador.Where(s => s.Entrevistador.ToUpper().Contains(searchString.ToUpper())
+                    || s.Ddd1.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            switch (sortOrder)
+            {
+                case "First":
+                    entrevistador = entrevistador.OrderByDescending(s => s.Entrevistador);
+                        break;
+                case "Second":
+                    entrevistador = entrevistador.OrderBy(s => s.HoraStatus);
+                    break;
+                case "Second_desc":
+                    entrevistador = entrevistador.OrderByDescending(s => s.HoraStatus);
+                    break;
+                default:
+                    entrevistador = entrevistador.OrderBy(s => s.Entrevistador);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (pagina ?? 1);
+            //return View(entrevistador.ToListAsync(pageNumber, pageSize));
+                        return View(entrevistador.ToPagedList(numeroPagina, tamanhoPagina));
+
         }
 
         // GET: Bancoclientes/Details/5

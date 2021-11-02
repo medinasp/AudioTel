@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AudioTel.Models.Gravacoes>
+﻿@model IEnumerable<AudioTelRec.Models.Gravacao>
 
 @{
     ViewData["Title"] = "Index";
@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Ramal)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdBancoClienteNavigation)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -49,10 +52,12 @@
                 @Html.DisplayFor(modelItem => item.Ramal)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.IdBancoClienteNavigation.Ddd1)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a asp-area="Audio e Video" asp-controller="Home" asp-action="AudioVideo">Audio</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

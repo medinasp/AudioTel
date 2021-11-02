@@ -1,4 +1,9 @@
-﻿@model IEnumerable<AudioTel.Models.Bancocliente>
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@model X.PagedList.IPagedList<AudioTel.Models.Bancocliente>
+@using X.PagedList.Mvc;
+
 
 @{
     ViewData["Title"] = "Index";
@@ -10,47 +15,56 @@
     </a>
 </h2>
 
-<table class="table table-responsive table-sm table-striped table-hover" style="width: 100vw; grid-column-end">
+@using (Html.BeginForm("Index", "BancoClientes", FormMethod.Get))
+{
+    <p>
+        Procura por Nome : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Filtrar" />
+    </p>
+}
+
+
+<table class="table table-responsive table-sm table-striped table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Codigo)
+                Código
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Entrevistador)
+                @Html.ActionLink("Entrevistador", "Index", new { sortOrder = ViewBag.First, currentFilter = ViewBag.CurrentFilter })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataStatus)
+                DataStatus
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HoraStatus)
+                @Html.ActionLink("Hora Status", "Index", new { sortOrder = ViewBag.Second })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TelFeito)
+                TelFeito
             </th>
             <th>
                 NT
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ddd1)
+                Ddd1
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fone1)
+                Fone 1
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ddd2)
+                Ddd2
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fone2)
+                Fone2
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ddd3)
+                Ddd3
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fone3)
+                Fone3
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ddd4)
+                Ddd4
             </th>
             <th>
                 Fone 4 &nbsp;
@@ -58,56 +72,86 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Codigo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Entrevistador)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HoraStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TelFeito)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumTratado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ddd1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fone1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ddd2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fone2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ddd3)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fone3)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ddd4)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fone4)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id"class="bi bi-pencil" style="font-size: 1.10rem"></a> |
-                <a asp-action="Details" asp-route-id="@item.Id" class="bi bi-file-text" style="font-size: 1.10rem"></a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" class="bi bi-trash danger" style="font-size: 1.10rem; color: red"></a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Entrevistador)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TelFeito)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumTratado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ddd1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fone1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ddd2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fone2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ddd3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fone3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ddd4)
+                </td>
+                <td>
+
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="bi bi-pencil" style="font-size: 1.10rem"></a> |
+                    <a href="@Url.Action("Index", "Gravacoes", new { Id = item.Id })">
+                        <span class="bi bi-list-check" style="font-size: 1.10rem"></span>
+                    </a>
+
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="bi bi-pencil" style="font-size: 1.10rem"></a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="bi bi-file-text" style="font-size: 1.10rem"></a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="bi bi-trash danger" style="font-size: 1.10rem; color: red"></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<div class="container">
+    <p class="text-primary" role="group">
+        Página @Model.PageNumber de @Model.PageCount
+    </p>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { pagina = page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+    new X.PagedList.Web.Common.PagedListRenderOptions
+    {
+        DisplayItemSliceAndTotal = true,
+        ContainerDivClasses = new[] { "navigation" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+    })
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        })
+    </script>
+}
+
+
+
+
