@@ -17,9 +17,9 @@ namespace AudioTel.Controllers
 {
     public class BancoclientesController : Controller
     {
-        private readonly AudioTelRecDbContext _context;
+        private readonly AudioTelDbContext _context;
 
-        public BancoclientesController(AudioTelRecDbContext context)
+        public BancoclientesController(AudioTelDbContext context)
         {
             _context = context;
         }

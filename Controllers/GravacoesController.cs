@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AudioTel.Models;
 
-namespace AudioTelRec.Controllers
+namespace AudioTel.Controllers
 {
     public class GravacoesController : Controller
     {
-        private readonly AudioTelRecDbContext _context;
+        private readonly AudioTelDbContext _context;
 
-        public GravacoesController(AudioTelRecDbContext context)
+        public GravacoesController(AudioTelDbContext context)
         {
             _context = context;
         }
@@ -21,8 +21,8 @@ namespace AudioTelRec.Controllers
         // GET: Gravacoes
         public async Task<IActionResult> Index()
         {
-            var audioTelRecDbContext = _context.Gravacoes.Include(g => g.IdBancoClienteNavigation);
-            return View(await audioTelRecDbContext.ToListAsync());
+            var audioTelDbContext = _context.Gravacoes.Include(g => g.IdBancoClienteNavigation);
+            return View(await audioTelDbContext.ToListAsync());
         }
 
         // GET: Gravacoes/Details/5

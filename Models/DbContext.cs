@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AudioTel.Models
 {
-    public partial class AudioTelRecDbContext : DbContext
+    public partial class AudioTelDbContext : DbContext
     {
-        public AudioTelRecDbContext()
+        public AudioTelDbContext()
         {
         }
 
-        public AudioTelRecDbContext(DbContextOptions<DbContext> options)
+        public AudioTelDbContext(DbContextOptions<DbContext> options)
             : base(options)
         {
         }

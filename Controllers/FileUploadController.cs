@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace AudioTel.Controllers
 {
-    public class FileUploadController : Controller
+    public class FilesUploadController : Controller
     {
 
-        public IActionResult FileUpload()
+        public IActionResult Index()
         {
             return View();
         }
 
-        [HttpPost("FileUpload")]
-        public async Task<IActionResult> FileUpload(List<IFormFile> files)
+        [HttpPost("FilesUpload")]
+        public async Task<IActionResult> FilesUpload(List<IFormFile> files)
         {
             var size = files.Sum(f => f.Length);
 
