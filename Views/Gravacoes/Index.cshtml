@@ -19,9 +19,6 @@
                 @Html.DisplayNameFor(model => model.NomeDoArquivo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FileSize)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.FilePath)
             </th>
             <th>
@@ -30,20 +27,19 @@
             <th>
                 @Html.DisplayNameFor(model => model.IdBancoClienteNavigation)
             </th>
+            <th>Gravação</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Numero)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NomeDoArquivo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FileSize)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FilePath)
@@ -55,11 +51,17 @@
                 @Html.DisplayFor(modelItem => item.IdBancoClienteNavigation.Ddd1)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-area="Audio e Video" asp-controller="AudioVideo" asp-action="AudioVideo" data-id="AudioVideo">
+
+                    <video id="audioplayer" src="@Url.Content(@item.FilePath)" controls width="200" height="50" loop />
+                </a>
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="bi bi-pencil" style="font-size: 1.10rem"></a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="bi bi-file-text" style="font-size: 1.10rem"></a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="bi bi-trash danger" style="font-size: 1.10rem; color: red"></a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
