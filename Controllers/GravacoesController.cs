@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AudioTel.Models;
+using X.PagedList;
 
 namespace AudioTel.Controllers
 {
@@ -19,10 +20,54 @@ namespace AudioTel.Controllers
         }
 
         // GET: Gravacoes
+/*
         public async Task<IActionResult> Index()
         {
             var audioTelDbContext = _context.Gravacoes.Include(g => g.IdBancoClienteNavigation);
             return View(await audioTelDbContext.ToListAsync());
+        }
+*/
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? pagina)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.First = String.IsNullOrEmpty(sortOrder) ? "First" : "";
+
+            int tamanhoPagina = 2;
+            int numeroPagina = pagina ?? 1;
+
+            if (searchString != null)
+            {
+                pagina = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var numero = from s in _context.Gravacoes
+                                select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                numero = numero.Where(s => s.Numero.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            switch (sortOrder)
+            {
+                case "First":
+                    numero = numero.OrderByDescending(s => s.Numero);
+                    break;
+                default:
+                    numero = numero.OrderBy(s => s.Numero);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (pagina ?? 1);
+            return View(numero.ToPagedList(numeroPagina, tamanhoPagina));
+
         }
 
         // GET: Gravacoes/Details/5

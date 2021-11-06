@@ -1,31 +1,38 @@
-﻿@model IEnumerable<AudioTel.Models.Gravacao>
+﻿@model X.PagedList.IPagedList<AudioTel.Models.Gravacao>
+@using X.PagedList.Mvc.Core;
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h2>
+    Gravações<a href="@Url.Action("Create")" class="btn text-primary" data-toggle="tooltip" data-placement="right">
+        <i class="bi bi-plus-circle-fill" style="font-size: 1.5rem; color:deepskyblue"></i>
+    </a>
+</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@using (Html.BeginForm("Index", "Gravacoes", FormMethod.Get))
+{
+    <p>
+        Procura por Número : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Filtrar" />
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Numero)
+                @Html.ActionLink("Numero", "Index", new { sortOrder = ViewBag.First, currentFilter = ViewBag.CurrentFilter })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NomeDoArquivo)
+                @Html.DisplayName("FilePath")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FilePath)
+                @Html.DisplayName("Ramal")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ramal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdBancoClienteNavigation)
+                @Html.DisplayName("IdBancoClienteNavigation")
             </th>
             <th>Gravação</th>
             <th></th>
@@ -34,34 +41,54 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Numero)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomeDoArquivo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FilePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ramal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdBancoClienteNavigation.Ddd1)
-            </td>
-            <td>
-                <a asp-area="Audio e Video" asp-controller="AudioVideo" asp-action="AudioVideo" data-id="AudioVideo">
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Numero)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FilePath)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ramal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdBancoClienteNavigation.Ddd1)
+                </td>
+                <td>
+                    <a asp-area="Audio e Video" asp-controller="AudioVideo" asp-action="AudioVideo" data-id="AudioVideo">
 
-                    <video id="audioplayer" src="@Url.Content(@item.FilePath)" controls width="200" height="50" loop />
-                </a>
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="bi bi-pencil" style="font-size: 1.10rem"></a> |
-                <a asp-action="Details" asp-route-id="@item.Id" class="bi bi-file-text" style="font-size: 1.10rem"></a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" class="bi bi-trash danger" style="font-size: 1.10rem; color: red"></a>
-            </td>
-        </tr>
+                        <video id="audioplayer" src="@Url.Content(@item.FilePath)" controls width="200" height="50" loop />
+                    </a>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="bi bi-pencil" style="font-size: 1.10rem"></a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="bi bi-file-text" style="font-size: 1.10rem"></a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="bi bi-trash danger" style="font-size: 1.10rem; color: red"></a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+
+<div class="container">
+    <p class="text-primary" role="group">
+        Página @Model.PageNumber de @Model.PageCount
+    </p>
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { pagina = page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }),
+        new X.PagedList.Web.Common.PagedListRenderOptions
+        {
+            DisplayItemSliceAndTotal = true,
+            ContainerDivClasses = new[] { "navigation" },
+            LiElementClasses = new[] { "page-item" },
+            PageClasses = new[] { "page-link" },
+        })
+
+    @section Scripts{
+        <script>
+            $(document).ready(function () {
+                $('ul.pagination > li.disabled > a').addClass('page-link');
+            })
+        </script>
+    }
